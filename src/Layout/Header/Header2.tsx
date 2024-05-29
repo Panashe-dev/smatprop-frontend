@@ -426,7 +426,7 @@ const Header = () => {
                     className="input100 border-start-0 ms-0 form-control"
                     type="text"
                     placeholder="Firtsname"
-                    name="firstname"
+                    name="firstName"
                     onChange={changeRegistrationHandler}
                     value={firstName}
                   />
@@ -443,7 +443,7 @@ const Header = () => {
                     className="input100 border-start-0 ms-0 form-control"
                     type="text"
                     placeholder="Lastname"
-                    name="lastname"
+                    name="lastName"
                     onChange={changeRegistrationHandler}
                     value={lastName}
                   />

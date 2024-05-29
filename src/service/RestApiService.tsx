@@ -20,6 +20,21 @@ export const getAllApplications = async () => {
   return responseData;
 };
 
+export const getPropertyById = async (id) => {
+  const responseData = await coreApi.get(`property/${id}`).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+export const getDashboardData = async () => {
+  const responseData = await coreApi.get(`dashboard/all`).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
+
 export const postRegisterApi = async (singupRequestBody) => {
   const axiosConfig = {
     headers: {

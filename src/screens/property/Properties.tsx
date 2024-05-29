@@ -17,13 +17,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Properties = () => {
+
   const { data, isPending, isError, error, isSuccess } = useQuery({
     queryKey: ["getProperties"],
     queryFn: () => getAllProperties(),
     staleTime: 1000 * 5,
   });
-
-
 
   const getMessage = () =>
     toast.error(

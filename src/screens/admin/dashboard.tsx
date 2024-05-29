@@ -12,9 +12,12 @@ import {
   Legend,
 } from "chart.js";
 import ReactApexChart from "react-apexcharts";
-import { Card, Col, Row,Button } from "react-bootstrap";
+import { Card, Col, Row, Button } from "react-bootstrap";
+import { getDashboardData } from "../../service/RestApiService";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 const Footer = lazy(() => import("../../Layout/Footer/Footer"));
+
 
 ChartJS.register(
   CategoryScale,
@@ -179,7 +182,7 @@ export const data = {
       tension: 0.3,
       borderWidth: 3,
       pointRadius: 0,
-    }
+    },
   ],
 };
 
@@ -190,6 +193,16 @@ export function SalesAnalytics() {
 }
 
 export default function AdminDashboard() {
+
+  const { data, isPending, isError, error, isSuccess } = useQuery({
+
+    queryKey: ["getDashbaordData"],
+    queryFn: () => getDashboardData(),
+    staleTime: 1000 * 5,
+  });
+
+  console.log(data)
+
   return (
     <Fragment>
       <div className="container-fluid">
@@ -210,7 +223,7 @@ export default function AdminDashboard() {
                     <div className="d-flex">
                       <div className="mt-2">
                         <h6 className="">Total Applicants</h6>
-                        <h2 className="mb-0 number-font">44</h2>
+                        <h2 className="mb-0 number-font">{data && (<>{data["totalApplicants"]}</>)}</h2>
                       </div>
                       <div className="ms-auto">
                         <div className="chart-wrapper mt-1"></div>
@@ -225,7 +238,6 @@ export default function AdminDashboard() {
                     </span>
                   </Card.Body>
                 </Card>
-
               </Col>
               <Col lg={6} md={6} sm={12} xl={3}>
                 <div className="card overflow-hidden">
@@ -233,7 +245,7 @@ export default function AdminDashboard() {
                     <div className="d-flex">
                       <div className="mt-2">
                         <h6 className="">Total Properties</h6>
-                        <h2 className="mb-0 number-font">67</h2>
+                        <h2 className="mb-0 number-font">{data && (<>{data["totalProperties"]}</>)}</h2>
                       </div>
                       <div className="ms-auto">
                         <div className="chart-wrapper mt-1"></div>
@@ -244,7 +256,7 @@ export default function AdminDashboard() {
                         <i className="fe fe-arrow-down-circle text-pink"></i>{" "}
                         0.0%
                       </span>
-                     ---
+                      ---
                     </span>
                   </Card.Body>
                 </div>
@@ -255,7 +267,7 @@ export default function AdminDashboard() {
                     <div className="d-flex">
                       <div className="mt-2">
                         <h6 className="">Total Users</h6>
-                        <h2 className="mb-0 number-font">56</h2>
+                        <h2 className="mb-0 number-font">{data && (<>{data["totalUsers"]}</>)}</h2>
                       </div>
                       <div className="ms-auto">
                         <div className="chart-wrapper mt-1"></div>
@@ -277,7 +289,7 @@ export default function AdminDashboard() {
                     <div className="d-flex">
                       <div className="mt-2">
                         <h6 className="">Total Registrstion</h6>
-                        <h2 className="mb-0 number-font">10</h2>
+                        <h2 className="mb-0 number-font">{data && (<>{data["totalRegistration"]}</>)}</h2>
                       </div>
                       <div className="ms-auto">
                         <div className="chart-wrapper mt-1"></div>
