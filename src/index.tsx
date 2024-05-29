@@ -15,7 +15,7 @@ const UserDashboard = lazy(() => import("./screens/user/UserDashboard"));
 const Properties = lazy(() => import("./screens/property/Properties"));
 const ApplicationForm = lazy(() => import("./screens/applicantion/Applicants"));
 const Accounts = lazy(() => import("./screens/admin/accounts"));
-const ApplicationList = lazy(() => import("./screens/admin/applications"));
+const ApplicationList = lazy(() => import("./screens/admin/Applications"));
 const AboutUs = lazy(() => import("./screens/aboutUs/aboutUs"));
 const Features = lazy(() => import("./screens/features/features"));
 const ConatctUs = lazy(() => import("./screens/contactUs/conatctUs"));

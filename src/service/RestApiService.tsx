@@ -13,6 +13,13 @@ export const getAllProperties = async () => {
   return responseData;
 };
 
+export const getAllApplications = async () => {
+  const responseData = await coreApi.get(`application/all`).then((response) => {
+    return response.data;
+  });
+  return responseData;
+};
+
 export const postRegisterApi = async (singupRequestBody) => {
   const axiosConfig = {
     headers: {

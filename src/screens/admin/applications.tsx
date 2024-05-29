@@ -3,20 +3,48 @@ import { useParams } from "react-router-dom";
 import { Card, Pagination, Row, Col, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PageHeader from "../../Layout/PageHeader/PageHeader";
-import { postApplicationForm } from "../../service/RestApiService";
+import { getAllApplications } from "../../service/RestApiService";
 import { getErrorMessage } from "../../service/CommonUtils";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DataTable from "react-data-table-component";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import "react-data-table-component-extensions/dist/index.css";
+import { Application } from "../../model/entity";
+import { isEmpty } from "../../service/CommonUtils";
 
-function applications() {
+function Applications() {
+
+  const { data, isPending, isError, error, isSuccess } = useQuery({
+    queryKey: ["applicationList"],
+    queryFn: () => getAllApplications(),
+    staleTime: 1000 * 5,
+  });
+
+  let applicantList: Array<Application> = new Array();
+
+  if (!isEmpty(data)) {
+    data.forEach((element) => {
+      applicantList.push(
+        new Application(
+          element["id"],
+          element["firstname"],
+          element["lastname"],
+          element["dob"],
+          element["ssn"],
+          element["phone"],
+          element["idNumber"],
+          element["occupation"],
+          element["property"]["reference"]
+        )
+      );
+    });
+  }
 
   const columns: any = [
     {
-      name: "Property Id",
+      name: "Application Id",
       selector: (row) => [row.id],
       sortable: false,
       cell: (row) => <span className="align-middle"> {row.id} </span>,
@@ -38,12 +66,6 @@ function applications() {
       ),
     },
     {
-      name: "Email",
-      selector: (row) => [row.email],
-      sortable: true,
-      cell: (row) => <span className="align-middle">{row.email}</span>,
-    },
-    {
       name: "Phone",
       selector: (row) => [row.phone],
       sortable: true,
@@ -53,23 +75,30 @@ function applications() {
       name: "National Id",
       sortable: false,
       cell: (row) => (
-        <span className="text-center align-middle">{row.nationalId}</span>
+        <span className="text-center align-middle">{row.idNumber}</span>
       ),
     },
     {
       name: "SSN",
       sortable: false,
       cell: (row) => (
-        <span className="text-center align-middle">{row.product}</span>
+        <span className="text-center align-middle">{row.ssn}</span>
       ),
     },
     {
       name: "occupation",
       sortable: true,
       cell: (row) => (
-        <span className="text-center align-middle">{row.status}</span>
+        <span className="text-center align-middle">{row.occupation}</span>
       ),
     },
+    {
+        name: "Property Reference",
+        sortable: true,
+        cell: (row) => (
+          <span className="text-center align-middle">{row.propertyRef}</span>
+        ),
+      },
   ];
 
   return (
@@ -93,12 +122,11 @@ function applications() {
                     <div className="product table-responsive">
                       <DataTable
                         className="border-bottom"
-                        // columns={columns}
+                        columns={columns}
                         responsive
                         striped
-                        // data={data}
+                        data={applicantList}
                         noHeader
-                        // defaultSortField="name"
                         sortIcon={<ArrowDownwardIcon />}
                         defaultSortAsc={true}
                         pagination
@@ -118,4 +146,4 @@ function applications() {
   );
 }
 
-export default applications;
+export default Applications;
