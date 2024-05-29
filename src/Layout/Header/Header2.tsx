@@ -88,46 +88,60 @@ const Header = () => {
   };
 
   const Login: any = async (e) => {
-    setLoader(true);
-    e.preventDefault();
-    try {
-      const loginResponse = await postLoginApi(data);
-      setLoader(false);
-      const accessToken = loginResponse?.accessToken;
-      const token: any = verify(accessToken);
-      const role = token["Granted_Authorities"][0]["role"];
-      const userId = token["sub"];
+    if (username === "" || password === "") {
+      errorMessage("please fill in all the required feilds");
+    } else {
+      try {
+        setLoader(true);
+        e.preventDefault();
+        const loginResponse = await postLoginApi(data);
+        setLoader(false);
+        const accessToken = loginResponse?.accessToken;
+        const token: any = verify(accessToken);
+        const role = token["Granted_Authorities"][0]["role"];
+        const userId = token["sub"];
 
-      const userInfo = {
-        token: loginResponse?.accessToken,
-        userId: userId,
-      };
+        const userInfo = {
+          token: loginResponse?.accessToken,
+          userId: userId,
+        };
 
-      localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      if (role === "USER") {
-        window.location.replace(from);
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        if (role === "USER") {
+          window.location.replace(from);
+        }
+        if (role === "ADMIN") {
+          window.location.replace(admin);
+        }
+      } catch (error) {
+        errorMessage(getErrorMessage(error));
+        setLoader(false);
+        getErrorMessage(error);
       }
-      if (role === "ADMIN") {
-        window.location.replace(admin);
-      }
-    } catch (error) {
-      errorMessage(getErrorMessage(error));
-      setLoader(false);
-      getErrorMessage(error);
     }
   };
 
   const register: any = async (e) => {
-    try {
-      setLoader2(true);
-      e.preventDefault();
-      const response = await postRegisterApi(data2);
-      successMesage();
-      setLoader2(false);
-    } catch (error) {
-      errorMessage(getErrorMessage(error));
-      setLoader2(false);
-      getErrorMessage(error);
+    if (
+      usernames === "" ||
+      email === "" ||
+      firstName === "" ||
+      lastName === "" ||
+      passwords === ""
+    ) {
+      errorMessage("please fill in all the required feilds");
+    } else {
+      try {
+        setLoader2(true);
+        e.preventDefault();
+        const response = await postRegisterApi(data2);
+        successMesage();
+        setLoader2(false);
+      } catch (error) {
+        errorMessage(getErrorMessage(error));
+        setLoader2(false);
+        getErrorMessage(error);
+      }
     }
   };
 

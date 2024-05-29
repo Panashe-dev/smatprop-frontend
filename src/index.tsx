@@ -21,6 +21,7 @@ const Features = lazy(() => import("./screens/features/features"));
 const ConatctUs = lazy(() => import("./screens/contactUs/conatctUs"));
 const Pricing = lazy(() => import("./screens/pricing/pricing"));
 
+
 const container: HTMLElement | any = document.getElementById("root");
 const root = createRoot(container);
 root.render(
